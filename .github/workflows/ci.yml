@@ -96,6 +96,7 @@ jobs:
         toolchain: nightly
         override: true
     - run: "rustup component add rust-src --toolchain nightly-${{ matrix.triple }}"
+    - uses: actions/checkout@v2
     - run: "make debug"
       working-directory: examples/hello_in_panic
     - run: "make release"
