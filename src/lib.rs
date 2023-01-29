@@ -1,6 +1,11 @@
+#![feature(panic_info_message)]
+
+#![deny(warnings)]
+
 #![no_std]
 
 use core::fmt::{self};
+use core::fmt::Write as fmt_Write;
 use core::panic::PanicInfo;
 use exit_no_std::exit;
 
@@ -15,7 +20,7 @@ fn write_ascii_char(c: u8) {
 
 #[cfg(all(not(target_os="dos"), not(windows)))]
 fn write_ascii_char(c: u8) {
-    write(2, &c as *const _ as _, 1);
+    unsafe { libc::write(2, &c as *const _ as _, 1); }
 }
 
 #[cfg(target_os="dos")]
@@ -48,7 +53,7 @@ impl fmt::Write for LastChanceWriter {
     }
 }
 
-pub fn panic(exit_code: u8, info: &core::panic::PanicInfo) -> ! {
+pub fn panic(exit_code: u8, info: &PanicInfo) -> ! {
     let _ = LastChanceWriter.write_str("Panic");
     if let Some(&message) = info.message() {
         let _ = write!(LastChanceWriter, ": {message}");
