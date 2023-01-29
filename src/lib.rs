@@ -32,6 +32,8 @@ fn write_ascii_char(c: u8) {
 
 #[cfg(target_os="dos")]
 fn write_ascii_char(c: u8) {
+    use pc_ints::int_21h_ah_02h_out_ch;
+
     if c == b'\n' {
         int_21h_ah_02h_out_ch(b'\r');
     }
@@ -60,7 +62,7 @@ impl fmt::Write for LastChanceWriter {
     }
 }
 
-pub fn panic(exit_code: u8, info: &PanicInfo) -> ! {
+pub fn panic(info: &PanicInfo, exit_code: u8) -> ! {
     let _ = LastChanceWriter.write_str("Panic");
     if let Some(&message) = info.message() {
         let _ = write!(LastChanceWriter, ": {message}");
@@ -68,7 +70,7 @@ pub fn panic(exit_code: u8, info: &PanicInfo) -> ! {
         let _ = write!(LastChanceWriter, ": {message}");
     }
     if let Some(location) = info.location() {
-        let _ = writeln!(LastChanceWriter, " ({location})");
+        let _ = write!(LastChanceWriter, " ({location})");
     }
     let _ = writeln!(LastChanceWriter, ".");
     exit(exit_code)

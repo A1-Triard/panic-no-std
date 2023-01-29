@@ -1,0 +1,20 @@
+[package]
+edition = "2021"
+name = "hinpan"
+version = "0.0.0"
+publish = false
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "z"
+panic = "abort"
+strip = true
+
+[dependencies]
+panic-no-std = { path = "../.." }
+pc-atomics = "0.0.2"
+rlibc = "1.0.0"
