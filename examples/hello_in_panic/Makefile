@@ -1,6 +1,6 @@
 DOS_JSON_TARGET=i386-pc-dos-msvc
 DOS_TARGET=i386-pc-dos-hxrt
-TARGET := $(shell rustc -Vv | awk -F ': ' '{ if($$1 == "host") print $$2 }')
+TARGET ?= $(shell rustc -Vv | awk -F ': ' '{ if($$1 == "host") print $$2 }')
 EXE_SUFFIX := $(shell \
 	rustc +nightly -Z unstable-options --print target-spec-json --target $(TARGET) | jq -r '."exe-suffix" // empty' \
 )
