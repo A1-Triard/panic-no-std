@@ -11,10 +11,17 @@ use exit_no_std::exit;
 
 #[cfg(all(not(target_os="dos"), windows))]
 fn write_ascii_char(c: u8) {
-    let stderr = GetStdHandle(STD_ERROR_HANDLE);
+    use core::ptr::null_mut;
+    use winapi::shared::minwindef::DWORD;
+    use winapi::um::fileapi::WriteFile;
+    use winapi::um::handleapi::INVALID_HANDLE_VALUE;
+    use winapi::um::processenv::GetStdHandle;
+    use winapi::um::winbase::STD_ERROR_HANDLE;
+
+    let stderr = unsafe { GetStdHandle(STD_ERROR_HANDLE) };
     if stderr != null_mut() && stderr != INVALID_HANDLE_VALUE {
-        let mut written: WORD = 0;
-        WriteFile(stderr, &c as *const _ as _, 1, &mut written as *mut _, null_mut());
+        let mut written: DWORD = 0;
+        unsafe { WriteFile(stderr, &c as *const _ as _, 1, &mut written as *mut _, null_mut()); }
     }
 }
 

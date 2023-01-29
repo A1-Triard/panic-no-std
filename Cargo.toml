@@ -22,7 +22,7 @@ pc-ints = "0.3.2"
 libc = { version = "0.2.139", default-features = false }
 
 [target.'cfg(all(not(target_os="dos"), windows))'.dependencies]
-winapi = { version = "0.3.9", features = [] }
+winapi = { version = "0.3.9", features = ["fileapi", "handleapi", "processenv", "winbase"] }
 
 [badges]
 maintenance = { status = "actively-developed" }
