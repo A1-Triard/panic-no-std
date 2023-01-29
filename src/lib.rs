@@ -19,7 +19,7 @@ fn write_ascii_char(c: u8) {
     use winapi::um::winbase::STD_ERROR_HANDLE;
 
     let stderr = unsafe { GetStdHandle(STD_ERROR_HANDLE) };
-    if stderr != null_mut() && stderr != INVALID_HANDLE_VALUE {
+    if !stderr.is_null() && stderr != INVALID_HANDLE_VALUE {
         let mut written: DWORD = 0;
         unsafe { WriteFile(stderr, &c as *const _ as _, 1, &mut written as *mut _, null_mut()); }
     }
