@@ -1,4 +1,4 @@
-![maintenance: actively developed](https://img.shields.io/badge/maintenance-actively--developed-brightgreen.svg)
+![maintenance: passively maintained](https://img.shields.io/badge/maintenance-passively--maintained-yellowgreen.svg)
 
 # panic-no-std
 
