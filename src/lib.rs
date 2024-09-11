@@ -62,12 +62,7 @@ impl fmt::Write for LastChanceWriter {
 
 /// Prints panic message and terminates the current process with the specified exit code.
 pub fn panic(info: &PanicInfo, exit_code: u8) -> ! {
-    let _ = LastChanceWriter.write_str("Panic");
-    if let Some(&message) = info.message() {
-        let _ = write!(LastChanceWriter, ": {message}");
-    } else if let Some(message) = info.payload().downcast_ref::<&str>() {
-        let _ = write!(LastChanceWriter, ": {message}");
-    }
+    let _ = write!(LastChanceWriter, "Panic: {}", info.message());
     if let Some(location) = info.location() {
         let _ = write!(LastChanceWriter, " ({location})");
     }
