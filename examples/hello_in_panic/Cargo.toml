@@ -20,4 +20,4 @@ strip = true
 [dependencies]
 panic-no-std = { path = "../.." }
 pc-atomics = "0.0.2"
-rlibc = "1.0.0"
+rlibc-ext = "0.1.0"
