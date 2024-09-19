@@ -5,7 +5,7 @@
 
 #![windows_subsystem="console"]
 #![no_std]
-#![cfg_attr(any(target_os="dos", windows), no_main)]
+#![cfg_attr(target_os="dos", no_main)]
 
 extern crate pc_atomics;
 extern crate rlibc_ext;
@@ -15,19 +15,19 @@ mod no_std {
     fn panic_handler(info: &core::panic::PanicInfo) -> ! { panic_no_std::panic(info, b'P') }
 }
 
-#[cfg(any(target_os="dos", windows))]
+#[cfg(target_os="dos")]
 extern {
     type PEB;
 }
 
-#[cfg(all(not(target_os="dos"), not(windows)))]
+#[cfg(not(target_os="dos"))]
 #[start]
 fn main(_: isize, _: *const *const u8) -> isize {
     start();
     0
 }
 
-#[cfg(any(target_os="dos", windows))]
+#[cfg(target_os="dos")]
 #[allow(non_snake_case)]
 #[no_mangle]
 extern "stdcall" fn mainCRTStartup(_: *const PEB) -> u64 {
@@ -36,5 +36,5 @@ extern "stdcall" fn mainCRTStartup(_: *const PEB) -> u64 {
 }
 
 fn start() {
-    panic!("Hello! I am panicking.");
+    panic!("Hello! I am panicking");
 }
