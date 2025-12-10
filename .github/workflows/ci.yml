@@ -71,7 +71,7 @@ jobs:
     - run: "rustup component add rust-src --toolchain nightly-${{ matrix.tool }}"
     - uses: actions/checkout@v2
     - run: "RUSTFLAGS=\"--cfg dos\" cargo +nightly build --verbose --target=i386-pc-dos-msvc.json -Z build-std=core,panic_abort"
-    - run: "RUSTDOCFLAGS=\"--cfg dos\" RUSTDOCFLAGS=\"--cfg dos\" cargo +nightly doc --verbose --target=i386-pc-dos-msvc.json -Z build-std=core,panic_abort"
+    - run: "RUSTDOCFLAGS=\"--cfg dos\" RUSTFLAGS=\"--cfg dos\" cargo +nightly doc --verbose --target=i386-pc-dos-msvc.json -Z build-std=core,panic_abort"
     - run: "RUSTFLAGS=\"--cfg dos\" cargo +nightly build --verbose --release --target=i386-pc-dos-msvc.json -Z build-std=core,panic_abort"
     - run: "RUSTFLAGS=\"--cfg dos\" cargo +nightly clippy --verbose --target=i386-pc-dos-msvc.json -Z build-std=core,panic_abort"
   example:
