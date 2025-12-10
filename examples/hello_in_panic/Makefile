@@ -69,27 +69,27 @@ target/$(TARGET)/debug/$(BIN)$(EXE_SUFFIX): $(SRC)
 		--verbose -Z build-std=alloc,core,panic_abort --target $(TARGET)
 
 target/$(TARGET)/release/$(BIN)$(EXE_SUFFIX): $(SRC)
-	cargo +nightly build \
-		--verbose -Z build-std=alloc,core,panic_abort -Z build-std-features=panic_immediate_abort \
+	RUSTFLAGS="-Zunstable-options -Cpanic=immediate-abort" cargo +nightly build \
+		--verbose -Z build-std=alloc,core,panic_abort \
 		--target $(TARGET) --release
 
 target/$(DOS_JSON_TARGET)/debug/$(BIN).exe: $(SRC)
-	cargo +nightly build \
+	RUSTFLAGS="--cfg dos" cargo +nightly build \
 		--verbose -Z build-std=alloc,core,panic_abort --target $(DOS_JSON_TARGET).json
 
 target/$(DOS_JSON_TARGET)/release/$(BIN).exe: $(SRC)
-	cargo +nightly build \
-		--verbose -Z build-std=alloc,core,panic_abort -Z build-std-features=panic_immediate_abort \
+	RUSTFLAGS="--cfg dos -Zunstable-options -Cpanic=immediate-abort" cargo +nightly build \
+		--verbose -Z build-std=alloc,core,panic_abort \
 		--target $(DOS_JSON_TARGET).json --release
 
 clippy:
 	cargo +nightly clippy \
-		--verbose -Z build-std=alloc,core,panic_abort -Z build-std-features=panic_immediate_abort \
+		--verbose -Z build-std=alloc,core,panic_abort \
 		--target $(TARGET)
 
 dosclippy:
 	cargo +nightly clippy \
-		--verbose -Z build-std=alloc,core,panic_abort -Z build-std-features=panic_immediate_abort \
+		--verbose -Z build-std=alloc,core,panic_abort \
 		--target $(DOS_JSON_TARGET).json
 
 Cargo.lock: Cargo.toml

@@ -1,12 +1,12 @@
 #![feature(extern_types)]
-#![feature(start)]
 
 #![deny(warnings)]
 
 #![windows_subsystem="console"]
 #![no_std]
-#![cfg_attr(target_os="dos", no_main)]
+#![no_main]
 
+#[cfg(dos)]
 extern crate rlibc_ext;
 
 mod no_std {
@@ -14,16 +14,19 @@ mod no_std {
     fn panic_handler(info: &core::panic::PanicInfo) -> ! { panic_no_std::panic(info, b'P') }
 }
 
-#[cfg(not(target_os="dos"))]
-#[start]
-fn main(_: isize, _: *const *const u8) -> isize {
+#[cfg(not(dos))]
+use core::ffi::{c_char, c_int};
+
+#[cfg(not(dos))]
+#[unsafe(no_mangle)]
+extern "C" fn main(_: c_int, _: *mut *mut c_char) -> c_int {
     start();
     0
 }
 
-#[cfg(target_os="dos")]
+#[cfg(dos)]
 #[allow(non_snake_case)]
-#[no_mangle]
+#[unsafe(no_mangle)]
 extern "C" fn mainCRTStartup() -> ! {
     start();
     exit_no_std::exit(0)

@@ -19,7 +19,7 @@ strip = true
 
 [dependencies]
 panic-no-std = { path = "../.." }
-rlibc-ext = "0.2.0"
 
-[target.'cfg(target_os="dos")'.dependencies]
-exit-no-std = "0.2.1"
+[target.'cfg(dos)'.dependencies]
+exit-no-std = "0.3.0"
+rlibc-ext = "0.3.1"

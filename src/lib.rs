@@ -7,7 +7,7 @@ use core::fmt::Write as fmt_Write;
 use core::panic::PanicInfo;
 use exit_no_std::exit;
 
-#[cfg(all(not(target_os="dos"), windows))]
+#[cfg(all(not(dos), windows))]
 fn write_ascii_char(c: u8) {
     use core::ptr::null_mut;
     use winapi::shared::minwindef::DWORD;
@@ -23,12 +23,12 @@ fn write_ascii_char(c: u8) {
     }
 }
 
-#[cfg(all(not(target_os="dos"), not(windows)))]
+#[cfg(all(not(dos), not(windows)))]
 fn write_ascii_char(c: u8) {
     unsafe { libc::write(2, &c as *const _ as _, 1); }
 }
 
-#[cfg(target_os="dos")]
+#[cfg(dos)]
 fn write_ascii_char(c: u8) {
     use pc_ints::int_21h_ah_02h_out_ch;
 
